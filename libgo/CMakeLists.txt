@@ -534,6 +534,12 @@ set(baseopts "-g -Wno-zero-length-array ")
 if(GOLLVM_USE_SPLIT_STACK)
   string(APPEND baseopts "-fsplit-stack ")
 endif()
+
+# Unwind tables is used by libgo, but not enable on RISC-V by default.
+if (${goarch} STREQUAL "riscv64")
+  string(APPEND baseopts "-funwind-tables ")
+endif()
+
 foreach(def ${basedefines})
   string(APPEND baseopts "${def} ")
 endforeach()
